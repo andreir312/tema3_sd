@@ -6,8 +6,8 @@
 
 #include "imdb.h"
 
-
-IMDb::IMDb() {
+IMDb::IMDb()
+{
     // initialize what you need here.
 }
 
@@ -21,20 +21,22 @@ void IMDb::add_movie(std::string movie_name,
                      std::vector<std::string> actor_ids)
 {
 
-        this->movies.emplace(movie_id, Movie(movie_name, movie_id, categories, director_name, actor_ids));
+    this->movies.emplace(movie_id, Movie(movie_name, movie_id, categories, director_name, actor_ids));
 
-        for (unsigned int i = 0; i < actor_ids.length(); i++)
-        {
-            this->actors[actor_ids[i]].sync_bounds(timestamp);
-        }
-        if (this->directors.find(director_name) == this->directors.end())
-        {
-            this->directors.emplace(director_name, Director(director_name, actor_ids));
-        }
-        else
-        {
-            this->directors[director_name].sync_actors(actor_ids);
-        }
+    this->recent_movies.emplace(timestamp, movie_id);
+
+    for (unsigned int i = 0; i < actor_ids.length(); i++)
+    {
+        this->actors[actor_ids[i]].sync_bounds(timestamp);
+    }
+    if (this->directors.find(director_name) == this->directors.end())
+    {
+        this->directors.emplace(director_name, Director(director_name, actor_ids));
+    }
+    else
+    {
+        this->directors[director_name].sync_actors(actor_ids);
+    }
 }
 
 void IMDb::add_user(std::string user_id, std::string name)
@@ -87,38 +89,68 @@ std::string IMDb::get_rating(std::string movie_id)
     return this->movies[movie_id].get_rating();
 }
 
-std::string IMDb::get_longest_career_actor() {
+std::string IMDb::get_longest_career_actor()
+{
     return "";
 }
 
-std::string IMDb::get_most_influential_director() {
+std::string IMDb::get_most_influential_director()
+{
     return "";
 }
 
-std::string IMDb::get_best_year_for_category(std::string category) {
+std::string IMDb::get_best_year_for_category(std::string category)
+{
     return "";
 }
 
-std::string IMDb::get_2nd_degree_colleagues(std::string actor_id) {
+std::string IMDb::get_2nd_degree_colleagues(std::string actor_id)
+{
     return "";
 }
 
-std::string IMDb::get_top_k_most_recent_movies(int k) {
+std::string IMDb::get_top_k_most_recent_movies(int k)
+{
+    std::multimap<int, std::string, compare>::iterator it;
+
+    int i = 0;
+
+    std::string result;
+
+    for (it = this->recent_movies.begin(); it != this->recent_movies.end(); it++)
+    {
+        i++;
+
+        result += it->second;
+
+        if (i != k)
+        {
+            result += " ";
+        }
+        else
+        {
+            break;
+        }
+    }
+    return result;
+}
+
+std::string IMDb::get_top_k_actor_pairs(int k)
+{
     return "";
 }
 
-std::string IMDb::get_top_k_actor_pairs(int k) {
+std::string IMDb::get_top_k_partners_for_actor(int k, std::string actor_id)
+{
     return "";
 }
 
-std::string IMDb::get_top_k_partners_for_actor(int k, std::string actor_id) {
+std::string IMDb::get_top_k_most_popular_movies(int k)
+{
     return "";
 }
 
-std::string IMDb::get_top_k_most_popular_movies(int k) {
-    return "";
-}
-
-std::string IMDb::get_avg_rating_in_range(int start, int end) {
+std::string IMDb::get_avg_rating_in_range(int start, int end)
+{
     return "";
 }

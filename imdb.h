@@ -4,11 +4,13 @@
 # include <string>
 # include <vector>
 # include <unordered_map>
+# include <map>
 
 # include "movie.h"
 # include "user.h"
 # include "actor.h"
 # include "director.h"
+# include "compare.h"
 
 #define NONE                            "none"
 
@@ -30,8 +32,8 @@
 #define GET_TOP_K_MOST_POPULAR_MOVIES   "get_top_k_most_popular_movies"
 #define GET_AVG_RATING_IN_RANGE         "get_avg_rating_in_range"
 
-
-class IMDb {
+class IMDb
+{
 public:
     IMDb();
     ~IMDb();
@@ -73,6 +75,8 @@ private:
     std::unordered_map<std::string, Actor> actors;
 
     std::unordered_map<std::string, Director> directors;
+
+    std::multimap<int, std::string, compare> recent_movies;
 };
 
 #endif  // IMDB__H__
