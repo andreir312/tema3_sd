@@ -2,13 +2,21 @@
 
 # include <cmath>
 
+# include <string>
+
+# include <sstream>
+
 int main()
 {
     double x = 9.33511;
 
     x = round(x * 100) / 100;
 
-    std::cout << x << std::endl;
+    std::ostringstream s;
+
+    s << x;
+
+    std::cout << s.str() << std::endl;
 
     return 0;
 }

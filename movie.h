@@ -5,6 +5,8 @@
 
 # include <vector>
 
+# include <sstream>
+
 struct Movie
 {
     std::string name;
@@ -67,6 +69,17 @@ struct Movie
         this->sum -= old_rating;
 
         this->rating = this->sum / this->votes;
+    }
+
+    std::string get_rating()
+    {
+        this->rating = round(this->rating * 100) / 100;
+
+        std::ostringstream aux;
+
+        aux << this->rating;
+
+        return aux.str();
     }
 };
 

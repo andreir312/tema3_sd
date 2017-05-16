@@ -1,8 +1,14 @@
-#ifndef __IMDB__H__
-#define __IMDB__H__
+#ifndef IMDB__H__
+#define IMDB__H__
 
-#include <string>
-#include <vector>
+# include <string>
+# include <vector>
+# include <unordered_map>
+
+# include "movie.h"
+# include "user.h"
+# include "actor.h"
+# include "director.h"
 
 #define NONE                            "none"
 
@@ -59,6 +65,14 @@ public:
 
 private:
     // add any variables you need here.
+
+    std::unordered_map<std::string, Movie> movies;
+
+    std::unordered_map<std::string, User> users;
+
+    std::unordered_map<std::string, Actor> actors;
+
+    std::unordered_map<std::string, Director> directors;
 };
 
-#endif
+#endif  // IMDB__H__
