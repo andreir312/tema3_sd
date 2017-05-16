@@ -65,6 +65,10 @@ struct Actor
 
     int get_career()
     {
+        if (this->is_begin == false || this->is_end == false)
+        {
+            return 0;
+        }
         return abs(this->end - this->begin);
     }
 };
