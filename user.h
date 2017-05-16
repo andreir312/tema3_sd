@@ -2,6 +2,7 @@
 #define USER__H__
 
 # include <string>
+
 # include <unordered_map>
 
 struct User
@@ -19,14 +20,19 @@ struct User
         this->name = name;
     }
 
-    sync_rating(std::string movie_id, int rating)
+    void sync_rating(std::string movie_id, double rating)
     {
-        movies[movie_id] = (double)rating; // works with both add and update
+        this->movies[movie_id] = rating; // works with both add and update
     }
 
-    remove_rating(std::string movie_id)
+    void remove_rating(std::string movie_id)
     {
-        movies.erase(movie_id);
+        this->movies.erase(movie_id);
+    }
+
+    double get_rating(std::string movie_id)
+    {
+        return this->movies[movie_id];
     }
 };
 

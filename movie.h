@@ -2,6 +2,7 @@
 #define MOVIE__H__
 
 # include <string>
+
 # include <vector>
 
 struct Movie
@@ -41,29 +42,29 @@ struct Movie
         this->actors_ids = actor_ids;
     }
 
-    add_rating(int new_rating)
+    void add_rating(double new_rating)
     {
         this->votes += 1;
 
-        this->sum += (double)new_rating;
+        this->sum += new_rating;
 
         this->rating = this->sum / this->votes;
     }
 
-    update_rating(int new_rating, int old_rating)
+    void update_rating(double new_rating, double old_rating)
     {
-        this->sum -= (double)old_rating;
+        this->sum -= old_rating;
 
-        this->sum += (double)new_rating;
+        this->sum += new_rating;
 
         this->rating = this->sum / this->votes;
     }
 
-    remove_rating(int old_rating)
+    void remove_rating(double old_rating)
     {
         this->votes -= 1;
 
-        this->sum -= (double)old_rating;
+        this->sum -= old_rating;
 
         this->rating = this->sum / this->votes;
     }
