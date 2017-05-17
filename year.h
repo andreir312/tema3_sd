@@ -16,6 +16,10 @@ struct Year
     Year(std::string name)
     {
         this->name = name;
+
+        this-> votes = 0;
+
+        this->sum = 0;
     }
 
     void add_rating(double new_rating)

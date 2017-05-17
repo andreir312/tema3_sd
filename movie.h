@@ -23,7 +23,7 @@ struct Movie
 
     double rating;
 
-    double votes;
+    int votes;
 
     double sum;
 
@@ -42,6 +42,10 @@ struct Movie
         this->director_name = director_name;
 
         this->actors_ids = actor_ids;
+
+        this->votes = 0;
+
+        this->sum = 0;
     }
 
     void add_rating(double new_rating)
@@ -50,7 +54,7 @@ struct Movie
 
         this->sum += new_rating;
 
-        this->rating = this->sum / this->votes;
+        this->rating = this->sum / (double)this->votes;
     }
 
     void update_rating(double new_rating, double old_rating)
@@ -59,7 +63,7 @@ struct Movie
 
         this->sum += new_rating;
 
-        this->rating = this->sum / this->votes;
+        this->rating = this->sum / (double)this->votes;
     }
 
     void remove_rating(double old_rating)
@@ -68,7 +72,7 @@ struct Movie
 
         this->sum -= old_rating;
 
-        this->rating = this->sum / this->votes;
+        this->rating = this->sum / (double)this->votes;
     }
 
     std::string get_rating()
@@ -90,6 +94,11 @@ struct Movie
     int get_timestamp()
     {
         return this->timestamp;
+    }
+
+    int get_votes()
+    {
+        return this->votes;
     }
 };
 

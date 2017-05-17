@@ -4,9 +4,29 @@
 
 # include <vector>
 
+# include <utility>
+
 #include "imdb.h"
 
-std::string convert(int timestamp);
+std::string convert(int timestamp)
+{
+    time_t aux = timestamp;
+
+    struct tm *tmp;
+
+    char buffer[5];
+
+    tmp = gmtime(&aux);
+
+    strftime(buffer, 5, "%Y", tmp);
+
+    return year(buffer);
+}
+
+bool comp(std::pair<std::string, Movie>> a, std::pair<std::string, Movie>> b)
+{
+    return a.second.votes > b.second.votes;
+}
 
 IMDb::IMDb()
 {
@@ -193,7 +213,32 @@ std::string IMDb::get_top_k_partners_for_actor(int k, std::string actor_id)
 
 std::string IMDb::get_top_k_most_popular_movies(int k)
 {
-    return "";
+    std::vector<std::pair<std::string, Movie>> top_votes(this->movies.begin(), this->movies.end());
+
+    std::sort(top_votes.begin(), top_votes.end(), compare);
+
+    std::vector<std::pair<std::string, Movie>>::iterator it;
+
+    int i = 0;
+
+    std::string result;
+
+    for (it = this->top_votes.begin(); it != this->top_votes.end(); it++)
+    {
+        i++;
+
+        result += it->first;
+
+        if (i != k)
+        {
+            result += " ";
+        }
+        else
+        {
+            break;
+        }
+    }
+    return result;
 }
 
 std::string IMDb::get_avg_rating_in_range(int start, int end)
