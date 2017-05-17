@@ -6,6 +6,8 @@
 
 #include "imdb.h"
 
+std::string convert(int timestamp);
+
 IMDb::IMDb()
 {
     // initialize what you need here.
@@ -20,7 +22,19 @@ void IMDb::add_movie(std::string movie_name,
                      std::string director_name,
                      std::vector<std::string> actor_ids)
 {
+    year = convert(timestamp);
 
+    for (unsigned int i = 0; i < categories.length(); i++)
+    {
+        if (this->categories.find(categories[i]) == this->categories.end())
+        {
+            this->categories.emplace(categories[i], Category(categories[i], year));
+        }
+        else
+        {
+            this->categories[categories[i]].sync(year);
+        }
+    }
     this->movies.emplace(movie_id, Movie(movie_name, movie_id, categories, director_name, actor_ids));
 
     this->recent_movies.emplace(timestamp, movie_id);
@@ -60,6 +74,16 @@ void IMDb::add_rating(std::string user_id, std::string movie_id, int rating)
 
     this->movies[movie_id].add_rating((double)rating);
 
+    std::vector<std::string> categories = this->movies[movie_id].get_categories();
+
+    int timestamp = this->movies[movie_id].get_timestamp();
+
+    year = convert(timestamp);
+
+    for (unsigned int i = 0; i < categories.length(); i++)
+    {
+        this->categories[categories[i]].add_rating(year, rating);
+    }
 }
 
 void IMDb::update_rating(std::string user_id, std::string movie_id, int rating)
@@ -71,6 +95,17 @@ void IMDb::update_rating(std::string user_id, std::string movie_id, int rating)
 
     this->movies[movie_id].update_rating((double)rating, old_rating);
 
+    std::vector<std::string> categories = this->movies[movie_id].get_categories();
+
+    int timestamp = this->movies[movie_id].get_timestamp();
+
+    year = convert(timestamp);
+
+    for (unsigned int i = 0; i < categories.length(); i++)
+    {
+        this->categories[categories[i]].update_rating(year, rating, old_rating);
+    }
+
 }
 
 void IMDb::remove_rating(std::string user_id, std::string movie_id)
@@ -81,6 +116,17 @@ void IMDb::remove_rating(std::string user_id, std::string movie_id)
     this->users[user_id].remove_rating(movie_id, (double)rating);
 
     this->movies[movie_id].remove_rating((double)rating, old_rating);
+
+    std::vector<std::string> categories = this->movies[movie_id].get_categories();
+
+    int timestamp = this->movies[movie_id].get_timestamp();
+
+    year = convert(timestamp);
+
+    for (unsigned int i = 0; i < categories.length(); i++)
+    {
+        this->categories[categories[i]].remove_rating(year, old_rating);
+    }
 
 }
 

@@ -11,6 +11,8 @@
 # include "actor.h"
 # include "director.h"
 # include "compare.h"
+# include "year.h"
+# include "category.h"
 
 #define NONE                            "none"
 
@@ -75,6 +77,8 @@ private:
     std::unordered_map<std::string, Actor> actors;
 
     std::unordered_map<std::string, Director> directors;
+
+    std::unordered_map<std::string, Category> categories;
 
     std::multimap<int, std::string, compare> recent_movies;
 };

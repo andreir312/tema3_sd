@@ -81,6 +81,16 @@ struct Movie
 
         return aux.str();
     }
+
+    std::vector<std::string> get_categories()
+    {
+        return this->categories;
+    }
+
+    int get_timestamp()
+    {
+        return this->timestamp;
+    }
 };
 
 #endif  // MOVIE__H__
