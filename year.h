@@ -3,6 +3,10 @@
 
 # include <string>
 
+# include <sstream>
+
+# include <iomanip>
+
 struct Year
 {
     std::string name;
@@ -58,13 +62,19 @@ struct Year
 
     std::string get_rating()
     {
-        this->rating = round(this->rating * 100) / 100;
+        if (this->votes != 0)
+        {
+            double result = round(this->rating * 100) / 100;
 
-        std::ostringstream aux;
+            std::stringstream tmp;
 
-        aux << this->rating;
+            tmp << std::fixed << std::setprecision (2) << result;
 
-        return aux.str();
+            std::string aux = tmp.str();
+
+            return aux;
+        }
+        return "none";
     }
 };
 

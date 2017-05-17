@@ -33,14 +33,6 @@
 #define GET_TOP_K_MOST_POPULAR_MOVIES   "get_top_k_most_popular_movies"
 #define GET_AVG_RATING_IN_RANGE         "get_avg_rating_in_range"
 
-struct Compare
-{
-    bool operator() (const int& a, const int& b) const
-    {
-        return a > b;
-    }
-};
-
 class IMDb
 {
 public:
@@ -87,7 +79,7 @@ private:
 
     std::unordered_map<std::string, Category> categories;
 
-    std::multimap<int, std::string, Compare> recent_movies;
+    std::multimap<int, std::string> recent_movies;
 };
 
 #endif  // IMDB__H__

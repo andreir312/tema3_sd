@@ -15,6 +15,8 @@ struct User
 
     User()
     {
+        this->id = "";
+
         this->name = "";
     }
 
@@ -25,19 +27,27 @@ struct User
         this->name = name;
     }
 
-    void sync_rating(std::string movie_id, double rating)
+    void add_rating(std::string movie_id, double rating)
     {
-        this->movies[movie_id] = rating; // works with both add and update
+        this->movies.emplace(movie_id, rating);
     }
 
-    void remove_rating(std::string movie_id)
+    double update_rating(std::string movie_id, double rating)
     {
+        double result = this->movies[movie_id];
+
+        this->movies[movie_id] = rating;
+
+        return result;
+    }
+
+    double remove_rating(std::string movie_id)
+    {
+        double result = this->movies[movie_id];
+
         this->movies.erase(movie_id);
-    }
 
-    double get_rating(std::string movie_id)
-    {
-        return this->movies[movie_id];
+        return result;
     }
 };
 
