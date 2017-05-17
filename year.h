@@ -13,13 +13,13 @@ struct Year
 
     double rating;
 
-    double votes;
+    int votes;
 
     double sum;
 
     Year()
     {
-        this-> votes = 0;
+        this->votes = 0;
 
         this->sum = 0;
     }
@@ -39,7 +39,7 @@ struct Year
 
         this->sum += new_rating;
 
-        this->rating = this->sum / this->votes;
+        this->rating = this->sum / (double)this->votes;
     }
 
     void update_rating(double new_rating, double old_rating)
@@ -48,7 +48,7 @@ struct Year
 
         this->sum += new_rating;
 
-        this->rating = this->sum / this->votes;
+        this->rating = this->sum / (double)this->votes;
     }
 
     void remove_rating(double old_rating)
@@ -57,24 +57,16 @@ struct Year
 
         this->sum -= old_rating;
 
-        this->rating = this->sum / this->votes;
+        this->rating = this->sum / (double)this->votes;
     }
 
-    std::string get_rating()
+    double get_rating()
     {
         if (this->votes != 0)
         {
-            double result = round(this->rating * 100) / 100;
-
-            std::stringstream tmp;
-
-            tmp << std::fixed << std::setprecision (2) << result;
-
-            std::string aux = tmp.str();
-
-            return aux;
+            return this->rating;
         }
-        return "none";
+        return 0;
     }
 };
 

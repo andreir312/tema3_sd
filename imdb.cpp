@@ -103,7 +103,7 @@ void IMDb::add_rating(std::string user_id, std::string movie_id, int rating)
 
     for (unsigned int i = 0; i < categories.size(); i++)
     {
-        this->categories[categories[i]].add_rating(year, rating);
+        this->categories[categories[i]].add_rating(year, (double)rating);
     }
 }
 
@@ -121,7 +121,7 @@ void IMDb::update_rating(std::string user_id, std::string movie_id, int rating)
 
     for (unsigned int i = 0; i < categories.size(); i++)
     {
-        this->categories[categories[i]].update_rating(year, rating, old_rating);
+        this->categories[categories[i]].update_rating(year, (double)rating, old_rating);
     }
 }
 
@@ -150,17 +150,83 @@ std::string IMDb::get_rating(std::string movie_id)
 
 std::string IMDb::get_longest_career_actor()
 {
-    return "";
+    std::string actor_id;
+
+    int career = -1;
+
+    int aux;
+
+    std::unordered_map<std::string, Actor>::iterator it;
+
+    for (it = actors.begin(); it != actors.end(); it++)
+    {
+        aux = it->second.get_career();
+
+        if (career < aux)
+        {
+            actor_id = it->first;
+
+            career = aux;
+        }
+        else
+        {
+            if (career == aux)
+            {
+                if (actor_id > it->first)
+                {
+                    actor_id = it->first;
+                }
+            }
+        }
+    }
+    if (career == -1)
+    {
+        return "none";
+    }
+    return actor_id;
 }
 
 std::string IMDb::get_most_influential_director()
 {
-    return "";
+    std::string director_id;
+
+    int actors = -1;
+
+    int aux;
+
+    std::unordered_map<std::string, Director>::iterator it;
+
+    for (it = directors.begin(); it != directors.end(); it++)
+    {
+        aux = it->second.get_no_actors();
+
+        if (actors < aux)
+        {
+            director_id = it->first;
+
+            actors = aux;
+        }
+        else
+        {
+            if (actors == aux)
+            {
+                if (director_id > it->first)
+                {
+                    director_id = it->first;
+                }
+            }
+        }
+    }
+    if (actors == -1)
+    {
+        return "none";
+    }
+    return director_id;
 }
 
 std::string IMDb::get_best_year_for_category(std::string category)
 {
-    return "";
+    return this->categories[category].get_rating();
 }
 
 std::string IMDb::get_2nd_degree_colleagues(std::string actor_id)

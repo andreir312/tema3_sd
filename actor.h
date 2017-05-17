@@ -42,6 +42,8 @@ struct Actor
         if (this->is_begin == false)
         {
             this->begin = timestamp;
+
+            this->is_begin = true;
         }
         else
         {
@@ -50,6 +52,8 @@ struct Actor
                 if (this->is_end == false)
                 {
                     this->end = this->begin;
+
+                    this->is_end = true;
                 }
                 this->begin = timestamp;
             }
@@ -58,6 +62,8 @@ struct Actor
                 if (this->is_end == false)
                 {
                     this->end = timestamp;
+
+                    this->is_end = true;
                 }
                 else
                 {
@@ -76,7 +82,7 @@ struct Actor
         {
             return 0;
         }
-        return std::abs(this->end - this->begin);
+        return (int)std::abs(this->end - this->begin);
     }
 };
 
