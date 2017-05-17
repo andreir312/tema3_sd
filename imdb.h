@@ -80,7 +80,7 @@ private:
 
     std::unordered_map<std::string, Category> categories;
 
-    std::multimap<int, std::string, compare> recent_movies;
+    std::multimap<int, std::string, Compare> recent_movies;
 };
 
 #endif  // IMDB__H__

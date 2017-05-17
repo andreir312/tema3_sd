@@ -13,6 +13,13 @@ struct Year
 
     double sum;
 
+    Year()
+    {
+        this-> votes = 0;
+
+        this->sum = 0;
+    }
+
     Year(std::string name)
     {
         this->name = name;

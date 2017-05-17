@@ -19,6 +19,13 @@ struct Actor
 
     int end;
 
+    Actor()
+    {
+        this->is_begin = false;
+
+        this->is_end = false;
+    }
+
     Actor(std::string actor_id, std::string name)
     {
         this->id = actor_id;
@@ -69,7 +76,7 @@ struct Actor
         {
             return 0;
         }
-        return abs(this->end - this->begin);
+        return std::abs(this->end - this->begin);
     }
 };
 

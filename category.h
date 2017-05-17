@@ -13,6 +13,11 @@ struct Category
 
     std::unordered_map<std::string, Year> years;
 
+    Category()
+    {
+        this->name = "";
+    }
+
     Category(std::string name, std::string year)
     {
         this->name = name;

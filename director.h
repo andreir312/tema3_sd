@@ -13,11 +13,16 @@ struct Director
 
     std::unordered_map<std::string, char> actors;
 
+    Director()
+    {
+        this->name = "";
+    }
+
     Director(std::string director_name, std::vector<std::string> actor_ids)
     {
         this->name = director_name;
 
-        for (unsigned int i = 0; i < actor_ids.length(); i++)
+        for (unsigned int i = 0; i < actor_ids.size(); i++)
         {
             this->actors.emplace(actor_ids[i], 0);
         }
@@ -25,7 +30,7 @@ struct Director
 
     void sync_actors(std::vector<std::string> actor_ids)
     {
-        for (unsigned int i = 0; i < actor_ids.length(); i++)
+        for (unsigned int i = 0; i < actor_ids.size(); i++)
         {
             if (this->actors.find(actor_ids[i]) == this->actors.end())
             {

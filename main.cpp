@@ -12,30 +12,35 @@
 
 
 template<typename Out>
-void split(const std::string &s, char delim, Out result) {
+void split(const std::string &s, char delim, Out result)
+{
     std::stringstream ss;
     ss.str(s);
     std::string item;
-    while (std::getline(ss, item, delim)) {
+    while (std::getline(ss, item, delim))
+    {
         *(result++) = item;
     }
 }
 
 
-std::vector<std::string> split(const std::string &s, char delim) {
+std::vector<std::string> split(const std::string &s, char delim)
+{
     std::vector<std::string> elems;
     split(s, delim, std::back_inserter(elems));
     return elems;
 }
 
 
-std::string IMDb::read_input_line(const std::string& line) {
+std::string IMDb::read_input_line(const std::string& line)
+{
     std::vector<std::string> elems = split(line, ';');
 
     std::string operation_type = elems[0];
     std::string result = "";
 
-    if (operation_type == ADD_MOVIE) {
+    if (operation_type == ADD_MOVIE)
+    {
 
         std::string movie_name = elems[1];
         std::string movie_id = elems[2];
@@ -46,20 +51,26 @@ std::string IMDb::read_input_line(const std::string& line) {
         add_movie(movie_name, movie_id, timestamp, categories,
                   director_name, actor_ids);
 
-    } else if (operation_type == ADD_USER) {
+    }
+    else if (operation_type == ADD_USER)
+    {
 
         std::string user_id = elems[1];
         std::string name = elems[2];
         add_user(user_id, name);
 
-    } else if (operation_type == ADD_ACTOR) {
+    }
+    else if (operation_type == ADD_ACTOR)
+    {
 
         std::string actor_id = elems[1];
         std::string name = elems[2];
         add_actor(actor_id, name);
 
-    } else if (operation_type == ADD_RATING ||
-               operation_type == UPDATE_RATING) {
+    }
+    else if (operation_type == ADD_RATING ||
+             operation_type == UPDATE_RATING)
+    {
 
         std::string user_id = elems[1];
         std::string movie_id = elems[2];
@@ -71,63 +82,87 @@ std::string IMDb::read_input_line(const std::string& line) {
         else
             update_rating(user_id, movie_id, rating);
 
-    } else if (operation_type == REMOVE_RATING) {
+    }
+    else if (operation_type == REMOVE_RATING)
+    {
 
         std::string user_id = elems[1];
         std::string movie_id = elems[2];
         remove_rating(user_id, movie_id);
 
-    } else if (operation_type == GET_RATING) {
+    }
+    else if (operation_type == GET_RATING)
+    {
 
         std::string movie_id = elems[1];
         result = get_rating(movie_id);
 
-    } else if (operation_type == GET_LONGEST_CAREER_ACTOR) {
+    }
+    else if (operation_type == GET_LONGEST_CAREER_ACTOR)
+    {
 
         result = get_longest_career_actor();
 
-    } else if (operation_type == GET_MOST_INFLUENTIAL_DIRECTOR) {
+    }
+    else if (operation_type == GET_MOST_INFLUENTIAL_DIRECTOR)
+    {
 
         result = get_most_influential_director();
 
-    } else if (operation_type == GET_BEST_YEAR_FOR_CATEGORY) {
+    }
+    else if (operation_type == GET_BEST_YEAR_FOR_CATEGORY)
+    {
 
         std::string category = elems[1];
         result = get_best_year_for_category(category);
 
-    } else if (operation_type == GET_2ND_DEGREE_COLLEAGUES) {
+    }
+    else if (operation_type == GET_2ND_DEGREE_COLLEAGUES)
+    {
 
         std::string actor_id = elems[1];
         result = get_2nd_degree_colleagues(actor_id);
 
-    } else if (operation_type == GET_TOP_K_MOST_RECENT_MOVIES) {
+    }
+    else if (operation_type == GET_TOP_K_MOST_RECENT_MOVIES)
+    {
 
         int k = std::stoi(elems[1]);
         result = get_top_k_most_recent_movies(k);
 
-    } else if (operation_type == GET_TOP_K_ACTOR_PAIRS) {
+    }
+    else if (operation_type == GET_TOP_K_ACTOR_PAIRS)
+    {
 
         int k = std::stoi(elems[1]);
         result = get_top_k_actor_pairs(k);
 
-    } else if (operation_type == GET_TOP_K_PARTNERS_FOR_ACTOR) {
+    }
+    else if (operation_type == GET_TOP_K_PARTNERS_FOR_ACTOR)
+    {
 
         int k = std::stoi(elems[1]);
         std::string actor_id = elems[2];
         result = get_top_k_partners_for_actor(k, actor_id);
 
-    } else if (operation_type == GET_TOP_K_MOST_POPULAR_MOVIES) {
+    }
+    else if (operation_type == GET_TOP_K_MOST_POPULAR_MOVIES)
+    {
 
         int k = std::stoi(elems[1]);
         result = get_top_k_most_popular_movies(k);
 
-    } else if (operation_type == GET_AVG_RATING_IN_RANGE) {
+    }
+    else if (operation_type == GET_AVG_RATING_IN_RANGE)
+    {
 
         int start = std::stoi(elems[1]);
         int end = std::stoi(elems[2]);
         result = get_avg_rating_in_range(start, end);
 
-    } else {
+    }
+    else
+    {
 
         std::cerr << "Unknown operation type for " << operation_type << "\n";
         exit(1);
@@ -136,7 +171,8 @@ std::string IMDb::read_input_line(const std::string& line) {
     return result;
 }
 
-int main() {
+int main()
+{
     std::ifstream infile("input");
     std::ofstream outfile("output");
     std::string line;
@@ -144,8 +180,10 @@ int main() {
 
     IMDb imdb;
 
-    if (infile.is_open() && outfile.is_open()) {
-        while (std::getline(infile, line)) {
+    if (infile.is_open() && outfile.is_open())
+    {
+        while (std::getline(infile, line))
+        {
             if (line == "")
                 continue;
             result = imdb.read_input_line(line);
@@ -155,7 +193,8 @@ int main() {
         }
         infile.close();
         outfile.close();
-    } else
+    }
+    else
         std::cerr << "Unable to open input or output file.\n";
 
     return 0;

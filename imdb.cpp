@@ -6,7 +6,11 @@
 
 # include <utility>
 
-#include "imdb.h"
+# include <ctime>
+
+# include <algorithm>
+
+# include "imdb.h"
 
 std::string convert(int timestamp)
 {
@@ -20,10 +24,12 @@ std::string convert(int timestamp)
 
     strftime(buffer, 5, "%Y", tmp);
 
-    return year(buffer);
+    std::string year(buffer);
+
+    return year;
 }
 
-bool comp(std::pair<std::string, Movie>> a, std::pair<std::string, Movie>> b)
+bool compare(std::pair<std::string, Movie> a, std::pair<std::string, Movie> b)
 {
     return a.second.votes > b.second.votes;
 }
@@ -42,9 +48,9 @@ void IMDb::add_movie(std::string movie_name,
                      std::string director_name,
                      std::vector<std::string> actor_ids)
 {
-    year = convert(timestamp);
+    std::string year = convert(timestamp);
 
-    for (unsigned int i = 0; i < categories.length(); i++)
+    for (unsigned int i = 0; i < categories.size(); i++)
     {
         if (this->categories.find(categories[i]) == this->categories.end())
         {
@@ -55,11 +61,11 @@ void IMDb::add_movie(std::string movie_name,
             this->categories[categories[i]].sync(year);
         }
     }
-    this->movies.emplace(movie_id, Movie(movie_name, movie_id, categories, director_name, actor_ids));
+    this->movies.emplace(movie_id, Movie(movie_name, movie_id, timestamp, categories, director_name, actor_ids));
 
     this->recent_movies.emplace(timestamp, movie_id);
 
-    for (unsigned int i = 0; i < actor_ids.length(); i++)
+    for (unsigned int i = 0; i < actor_ids.size(); i++)
     {
         this->actors[actor_ids[i]].sync_bounds(timestamp);
     }
@@ -98,9 +104,9 @@ void IMDb::add_rating(std::string user_id, std::string movie_id, int rating)
 
     int timestamp = this->movies[movie_id].get_timestamp();
 
-    year = convert(timestamp);
+    std::string year = convert(timestamp);
 
-    for (unsigned int i = 0; i < categories.length(); i++)
+    for (unsigned int i = 0; i < categories.size(); i++)
     {
         this->categories[categories[i]].add_rating(year, rating);
     }
@@ -119,9 +125,9 @@ void IMDb::update_rating(std::string user_id, std::string movie_id, int rating)
 
     int timestamp = this->movies[movie_id].get_timestamp();
 
-    year = convert(timestamp);
+    std::string year = convert(timestamp);
 
-    for (unsigned int i = 0; i < categories.length(); i++)
+    for (unsigned int i = 0; i < categories.size(); i++)
     {
         this->categories[categories[i]].update_rating(year, rating, old_rating);
     }
@@ -133,17 +139,17 @@ void IMDb::remove_rating(std::string user_id, std::string movie_id)
 
     double old_rating = this->users[user_id].get_rating(movie_id);
 
-    this->users[user_id].remove_rating(movie_id, (double)rating);
+    this->users[user_id].remove_rating(movie_id);
 
-    this->movies[movie_id].remove_rating((double)rating, old_rating);
+    this->movies[movie_id].remove_rating(old_rating);
 
     std::vector<std::string> categories = this->movies[movie_id].get_categories();
 
     int timestamp = this->movies[movie_id].get_timestamp();
 
-    year = convert(timestamp);
+    std::string year = convert(timestamp);
 
-    for (unsigned int i = 0; i < categories.length(); i++)
+    for (unsigned int i = 0; i < categories.size(); i++)
     {
         this->categories[categories[i]].remove_rating(year, old_rating);
     }
@@ -177,7 +183,7 @@ std::string IMDb::get_2nd_degree_colleagues(std::string actor_id)
 
 std::string IMDb::get_top_k_most_recent_movies(int k)
 {
-    std::multimap<int, std::string, compare>::iterator it;
+    std::multimap<int, std::string, Compare>::iterator it;
 
     int i = 0;
 
@@ -223,7 +229,7 @@ std::string IMDb::get_top_k_most_popular_movies(int k)
 
     std::string result;
 
-    for (it = this->top_votes.begin(); it != this->top_votes.end(); it++)
+    for (it = top_votes.begin(); it != top_votes.end(); it++)
     {
         i++;
 

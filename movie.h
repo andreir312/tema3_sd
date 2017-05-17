@@ -7,6 +7,8 @@
 
 # include <sstream>
 
+# include <cmath>
+
 struct Movie
 {
     std::string name;
@@ -26,6 +28,13 @@ struct Movie
     int votes;
 
     double sum;
+
+    Movie()
+    {
+        this->votes = 0;
+
+        this->sum = 0;
+    }
 
     Movie(std::string movie_name, std::string movie_id, int timestamp,
           std::vector<std::string> categories, std::string director_name,

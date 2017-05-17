@@ -13,6 +13,11 @@ struct User
 
     std::unordered_map<std::string, double> movies;
 
+    User()
+    {
+        this->name = "";
+    }
+
     User(std::string user_id, std::string name)
     {
         this->id = user_id;
