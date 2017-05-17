@@ -4,6 +4,7 @@
 	#include <iostream>
 	#include <string>
 	#include <queue>
+	#include <vector>
 
 	using namespace std;
 
@@ -55,43 +56,26 @@
      private:
      		int pozitie;
 	    	int size;
-            struct date **adiacency_matrix;
+            std::vector< std::vector<struct date> > adiacency_matrix;
 
      public:
             Graph() {
             	pozitie = -1;
 				this->size = 100;
-
-				adiacency_matrix = new struct date* [100];
-				for (int i=0 ; i < 100 ; i++){
-					adiacency_matrix[i] = new struct date[100];
-				}
+				adiacency_matrix.resize(size);
+				for(int i = 0 ; i < size; ++i)
+				    {
+				        adiacency_matrix[i].resize(size);
+				    }
 			}
             ~Graph(){
-            	cout<<"destructor\n";
-				for (int i = 0; i < size ; i++){
-					delete[] adiacency_matrix[i];
-				}
-				delete[] adiacency_matrix;
 			}
 			void redimensionare(){
-				struct date **aux;
-				size += 100;
-				aux = new struct date* [size];
-				for (int i=0 ; i < size ; i++){
-					aux[i] = new struct date[size];
-				}
-				for ( int i = 0; i < pozitie; ++i){
-					for ( int j = i ; i <= pozitie; ++j){
-						aux[i][j] = adiacency_matrix[i][j];
-						aux[j][i] = adiacency_matrix[j][i];
-					}
-				}
-				for (int i = 0; i <= pozitie ; i++){
-					delete[] adiacency_matrix[i];
-				}
-				adiacency_matrix = aux;
-				delete[] aux;
+				size *=2;
+			    adiacency_matrix.resize(size);
+			    for(int i = 0 ; i < size; ++i){
+			        adiacency_matrix[i].resize(size);
+			    }
 
 			}
 
@@ -328,7 +312,7 @@
                         l++;
                     }
                     if (parteneri[j].filme != 0){
-                    	std::cout<<parteneri[j].actor_id1 << " ";
+                    	std::cout<<parteneri[j].actor_id1 << " "<<parteneri[j].filme<<"  ";
                 	}
                 }
             	std::cout << "\n";

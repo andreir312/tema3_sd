@@ -163,22 +163,21 @@ std::string IMDb::get_rating(std::string movie_id)
 
     std::string IMDb::get_longest_career_actor()
 {
-    std::string actor_id
+    std::string actor_id;
     int career = -1;
-    unsigned n = actors.size();
-    for (unsigned i=0; i<n; ++i) {
-        for (auto it = actors.begin(i); it!=actors.end(); ++it){
-            if (career < it->second->get_career()){
+    std::unordered_map<std::string, Actor>::iterator it;
+        for (it = actors.begin(); it!=actors.end(); ++it){
+            if (career < it->second.get_career()){
                 actor_id = it->first;
-            } else if(career == in->second->get_career()){
+            } else if(career == it->second.get_career()){
                 if (actor_id > it->first){
                     actor_id = it->first;
                 }
          
             }
         }
-    }
-    if (career = -1){
+    
+    if (career == -1){
         return "none";
     }
     return actor_id;
@@ -186,22 +185,21 @@ std::string IMDb::get_rating(std::string movie_id)
 
 std::string IMDb::get_most_influential_director()
 {
-    std::string director_id
+    std::string director_id;
     int actors = -1;
-    unsigned n = directors.size();
-    for (unsigned i=0; i<n; ++i) {
-        for (auto it = directors.begin(i); it!=directors.end(); ++it){
-            if (actors < it->second->get_no_actors()){
+    std::unordered_map<std::string, Director>::iterator it;
+        for (it = directors.begin(); it!=directors.end(); ++it){
+            if (actors < it->second.get_no_actors()){
                 director_id = it->first;
-            } else if(actors == in->second->get_no_actors()){
+            } else if(actors == it->second.get_no_actors()){
                 if (director_id > it->first){
                     director_id = it->first;
                 }
          
             }
         }
-    }
-    if (actors = -1){
+    
+    if (actors == -1){
         return "none";
     }
     return director_id;
