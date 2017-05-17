@@ -10,7 +10,6 @@
 # include "user.h"
 # include "actor.h"
 # include "director.h"
-# include "compare.h"
 # include "year.h"
 # include "category.h"
 
@@ -33,6 +32,14 @@
 #define GET_TOP_K_PARTNERS_FOR_ACTOR    "get_top_k_partners_for_actor"
 #define GET_TOP_K_MOST_POPULAR_MOVIES   "get_top_k_most_popular_movies"
 #define GET_AVG_RATING_IN_RANGE         "get_avg_rating_in_range"
+
+struct Compare
+{
+    bool operator() (const int& a, const int& b) const
+    {
+        return a > b;
+    }
+};
 
 class IMDb
 {
