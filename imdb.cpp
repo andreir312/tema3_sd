@@ -81,6 +81,13 @@ void IMDb::add_movie(std::string movie_name,
     {
         this->directors[director_name].sync_actors(actor_ids);
     }
+    for (unsigned int i = 0; i < actor_ids.size()-1; i++)
+    {
+        for (unsigned int j = i+1; j < actor_ids.size(); j++)
+        {
+            actors_links.adauga_film(actors[actor_ids[i]].number,actors[actor_ids[j]].number,actor_ids[i],actor_ids[j]);
+        }
+    }
 }
 
 void IMDb::add_user(std::string user_id, std::string name)
@@ -275,7 +282,7 @@ std::string IMDb::get_top_k_most_recent_movies(int k)
 
 std::string IMDb::get_top_k_actor_pairs(int k)
 {
-    return "";
+    return actors_links.top_k_perechi(k);
 }
 
 std::string IMDb::get_top_k_partners_for_actor(int k, std::string actor_id)
