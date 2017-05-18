@@ -86,6 +86,13 @@ void IMDb::add_movie(std::string movie_name,
     {
         this->directors[director_name].sync_actors(actor_ids);
     }
+    for (unsigned int i = 0; i < actor_ids.size() - 1; i++)
+    {
+        for (unsigned int j = i + 1; j < actor_ids.size(); j++)
+        {
+            actors_links.adauga_film(actors[actor_ids[i]].number, actors[actor_ids[j]].number, actor_ids[i], actor_ids[j]);
+        }
+    }
 }
 
 void IMDb::add_user(std::string user_id, std::string name)
@@ -96,6 +103,8 @@ void IMDb::add_user(std::string user_id, std::string name)
 void IMDb::add_actor(std::string actor_id, std::string name)
 {
     this->actors.emplace(actor_id, Actor(actor_id, name, number));
+
+    this->actors_links.add_actor(number, actor_id);
 
     this->number++;
 }
@@ -249,7 +258,11 @@ std::string IMDb::get_best_year_for_category(std::string category)
 
 std::string IMDb::get_2nd_degree_colleagues(std::string actor_id)
 {
-    return "";
+    if (this->movies.empty() == true)
+    {
+        return "none";
+    }
+    return actors_links.BFS(actors[actor_id].number);
 }
 
 std::string IMDb::get_top_k_most_recent_movies(int k)
@@ -284,12 +297,12 @@ std::string IMDb::get_top_k_most_recent_movies(int k)
 
 std::string IMDb::get_top_k_actor_pairs(int k)
 {
-    return "";
+    return actors_links.top_k_perechi(k);
 }
 
 std::string IMDb::get_top_k_partners_for_actor(int k, std::string actor_id)
 {
-    return "";
+    return actors_links.top_k_partners(k, actors[actor_id].number, actor_id);
 }
 
 std::string IMDb::get_top_k_most_popular_movies(int k)
@@ -367,6 +380,8 @@ std::string IMDb::get_top_k_most_popular_movies(int k)
                     }
                 }
                 buffer.clear();
+
+                continue;
             }
         }
         if (i != k)
