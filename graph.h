@@ -176,7 +176,7 @@
                         l++;
                     }
                     if (vector[j].filme != 0){
-                    	iesire = iesire + vector[j].actor_id1+ " ";
+                    	iesire = iesire +"("+ vector[j].actor_id1+ " " + vector[j].actor_id2 + " " +to_string(vector[j].filme)+" ) " ;
                 	}
                 }
             	std::cout << "\n";
