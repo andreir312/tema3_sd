@@ -83,7 +83,7 @@
 				if ( (src >= size) || (dst >= size)){
 					redimensionare();
 				}
-				
+				//cout << src<< "  "<< dst<<"  "<< a<< " "<< b<<"\n";				
 
 				if (src > pozitie){
 					adiacency_matrix[src][dst].numar_ordine = src;
@@ -129,10 +129,11 @@
 		      if ( i < sup ) QUICKSORT(i, sup, A);
 		    }
 
-		    void top_k_perechi(int k){     
+		    string top_k_perechi(int k){     
 		    	struct date *vector;
 		    	vector = new struct date[pozitie*(pozitie/2)];
 		    	int w = -1;
+		    	string iesire ="";
 		    	// copii toate filmele intr-un vector de structa date
 		    	for (int i = 0; i < pozitie-1; ++i){
 		    		for (int j = i+1; j < pozitie; ++j){
@@ -175,13 +176,15 @@
                         l++;
                     }
                     if (vector[j].filme != 0){
-                    	std::cout<<vector[j].actor_id1 << " ";
-                    	std::cout << vector[j].actor_id2 << " ";
-						std::cout << vector[j].filme << "\n";
+                    	iesire = iesire + vector[j].actor_id1+ " ";
                 	}
                 }
             	std::cout << "\n";
 		    	delete[] vector;
+		    	if (iesire == ""){
+		    		return "none";
+		    	}
+		    	return iesire;
 		    }
 
 
