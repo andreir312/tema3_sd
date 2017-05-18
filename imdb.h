@@ -1,8 +1,20 @@
-#ifndef __IMDB__H__
-#define __IMDB__H__
+/* Copyright 2017 Andrei Petre */
 
-#include <string>
-#include <vector>
+#ifndef SD_TEMA3_INCLUDE_IMDB_H_
+#define SD_TEMA3_INCLUDE_IMDB_H_
+
+# include <string>
+# include <vector>
+# include <unordered_map>
+# include <map>
+
+# include "movie.h"
+# include "user.h"
+# include "actor.h"
+# include "director.h"
+# include "year.h"
+# include "category.h"
+# include "graph.h"
 
 #define NONE                            "none"
 
@@ -25,7 +37,8 @@
 #define GET_AVG_RATING_IN_RANGE         "get_avg_rating_in_range"
 
 
-class IMDb {
+class IMDb
+{
 public:
     IMDb();
     ~IMDb();
@@ -59,6 +72,22 @@ public:
 
 private:
     // add any variables you need here.
+
+    std::unordered_map<std::string, Movie> movies;
+
+    std::unordered_map<std::string, User> users;
+
+    std::unordered_map<std::string, Actor> actors;
+
+    std::unordered_map<std::string, Director> directors;
+
+    std::unordered_map<std::string, Category> categories;
+
+    std::map<int, Movie> recent_movies;
+
+    Graph actors_links;
+
+    int number;
 };
 
-#endif
+#endif  // SD_TEMA3_INCLUDE_IMDB_H_
