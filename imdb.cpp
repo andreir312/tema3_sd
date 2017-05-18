@@ -1,6 +1,5 @@
 /* Copyright 2017 Andrei Petre */
 
-
 # include <iterator>
 
 # include <string>
@@ -35,6 +34,11 @@ std::string convert(int timestamp)
 bool compare(std::pair<std::string, Movie> a, std::pair<std::string, Movie> b)
 {
     return a.second.votes > b.second.votes;
+}
+
+bool compare_string(std::pair<std::string, Movie> a, std::pair<std::string, Movie> b)
+{
+    return a.first < b.first;
 }
 
 IMDb::IMDb()
@@ -82,13 +86,6 @@ void IMDb::add_movie(std::string movie_name,
     {
         this->directors[director_name].sync_actors(actor_ids);
     }
-    for (unsigned int i = 0; i < actor_ids.size()-1; i++)
-    {
-        for (unsigned int j = i+1; j < actor_ids.size(); j++)
-        {
-            actors_links.adauga_film(actors[actor_ids[i]].number,actors[actor_ids[j]].number,actor_ids[i],actor_ids[j]);
-        }
-    }
 }
 
 void IMDb::add_user(std::string user_id, std::string name)
@@ -98,9 +95,9 @@ void IMDb::add_user(std::string user_id, std::string name)
 
 void IMDb::add_actor(std::string actor_id, std::string name)
 {
-    this->number++;
-
     this->actors.emplace(actor_id, Actor(actor_id, name, number));
+
+    this->number++;
 }
 
 void IMDb::add_rating(std::string user_id, std::string movie_id, int rating)
@@ -173,7 +170,7 @@ std::string IMDb::get_longest_career_actor()
 {
     std::string actor_id;
 
-    int career = -1;
+    int career = -2;
 
     int aux;
 
@@ -252,12 +249,12 @@ std::string IMDb::get_best_year_for_category(std::string category)
 
 std::string IMDb::get_2nd_degree_colleagues(std::string actor_id)
 {
-    return actors_links.BFS(actors[actor_id].number);
+    return "";
 }
 
 std::string IMDb::get_top_k_most_recent_movies(int k)
 {
-    std::multimap<int, Movie>::reverse_iterator rit;
+    std::map<int, Movie>::reverse_iterator rit;
 
     int i = 0;
 
@@ -278,17 +275,21 @@ std::string IMDb::get_top_k_most_recent_movies(int k)
             break;
         }
     }
+    if (result.empty() == true)
+    {
+        return "none";
+    }
     return result;
 }
 
 std::string IMDb::get_top_k_actor_pairs(int k)
 {
-    return actors_links.top_k_perechi(k);
+    return "";
 }
 
 std::string IMDb::get_top_k_partners_for_actor(int k, std::string actor_id)
 {
-    return actors_links.top_k_partners(k, actors[actor_id].number, actor_id);
+    return "";
 }
 
 std::string IMDb::get_top_k_most_popular_movies(int k)
@@ -313,10 +314,8 @@ std::string IMDb::get_top_k_most_popular_movies(int k)
 
     for (it1 = top_votes.begin(); it1 != top_votes.end(); it1++)
     {
-        if (it2 != top_votes.end())
-        {
-            it2++;
-        }
+        it2++;
+
         if (it2 != top_votes.end())
         {
             if (it1->second.votes == it2->second.votes)
@@ -350,7 +349,7 @@ std::string IMDb::get_top_k_most_popular_movies(int k)
 
                     it2 = it3;
                 }
-                std::sort(buffer.begin(), buffer.end(), compare);
+                std::sort(buffer.begin(), buffer.end(), compare_string);
 
                 for (it4 = buffer.begin(); it4 != buffer.end(); it4++)
                 {
@@ -388,15 +387,13 @@ std::string IMDb::get_top_k_most_popular_movies(int k)
 
 std::string IMDb::get_avg_rating_in_range(int start, int end)
 {
-    std::multimap<int, Movie>::iterator it1;
+    std::map<int, Movie>::iterator it1;
 
     double result = 0;
 
     double n = 0;
 
     double aux;
-
-    int ok = 1;
 
     for (it1 = this->recent_movies.begin(); it1 != this->recent_movies.end(); it1++)
     {
@@ -416,14 +413,9 @@ std::string IMDb::get_avg_rating_in_range(int start, int end)
 
                 if (it1 == this->recent_movies.end())
                 {
-                    ok = 0;
-
                     break;
                 }
             }
-        }
-        if (ok == 0)
-        {
             break;
         }
     }

@@ -66,7 +66,7 @@ struct Year
         {
             return this->rating;
         }
-        return 0;
+        return -2;
     }
 };
 

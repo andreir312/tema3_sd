@@ -14,7 +14,6 @@
 # include "director.h"
 # include "year.h"
 # include "category.h"
-# include "graph.h"
 
 #define NONE                            "none"
 
@@ -83,9 +82,7 @@ private:
 
     std::unordered_map<std::string, Category> categories;
 
-    std::multimap<int, Movie> recent_movies;
-
-    Graph actors_links;
+    std::map<int, Movie> recent_movies;
 
     int number;
 };
