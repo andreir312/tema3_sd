@@ -107,7 +107,7 @@
 			}
 
      		void QUICKSORT(int inf, int sup, struct date A[]) {
-		      int x, i, j, t;
+		      int x, i, j;
 		      struct date *aux;
 		      aux = new struct date; 
 		      i = inf;
@@ -135,8 +135,8 @@
 		    	int w = -1;
 		    	string iesire ="";
 		    	// copii toate filmele intr-un vector de structa date
-		    	for (int i = 0; i < pozitie-1; ++i){
-		    		for (int j = i+1; j < pozitie; ++j){
+		    	for (int i = 0; i < pozitie; ++i){
+		    		for (int j = i+1; j <= pozitie; ++j){
 		    			w++;
 		    			// daca exista film intre actori
 		    			if (adiacency_matrix[i][j].filme != 0){
@@ -176,7 +176,7 @@
                         l++;
                     }
                     if (vector[j].filme != 0){
-                    	iesire = iesire +"("+ vector[j].actor_id1+ " " + vector[j].actor_id2 + " " +to_string(vector[j].filme)+" ) " ;
+                    	iesire = iesire +"("+ vector[j].actor_id1+ " " + vector[j].actor_id2 + " " +to_string(vector[j].filme)+") " ;
                 	}
                 }
             	std::cout << "\n";
@@ -217,7 +217,7 @@
 		      if ( i < sup ) QUICKSORT2(i, sup, A);
 		    }
 
-			void BFS(int nod){ // de grad 2
+			string BFS(int nod){ // de grad 2
 				int dimensiune = pozitie;
 				string culoare[dimensiune];
         		int distanta[dimensiune];
@@ -232,7 +232,7 @@
 				distanta[0]=0;
 				queue <int> Q;
 
-				Q.push(0);
+				Q.push(nod);
 				int v;
 				int ok =0;
 				int numar =0;
@@ -266,22 +266,24 @@
 				        culoare[v]="negru";
 				}
 				if (j == 0){
-					cout<<"none\n";
-					return;
+					return "none";
 				}
 				QUICKSORT2(0, j-1, noduri);
+				std::string iesire="";
+
 				//cout <<"\nNoduri de grad 2:  ";
 				for (i=0; i<j; ++i){
 
-					cout << noduri[i]<<  "\n";
+					iesire = iesire+noduri[i]+" ";
 				}
-
+				return iesire;
 			}
 			// se da din structura de unde e definit pozitia
-			void top_k_partners(int k, int pozitia, string actor_id){
+			string top_k_partners(int k, int pozitia, string actor_id){
 				cout<<"Top k parteneri: \n";
 				struct date *parteneri;
 				int poz = 0;
+				string iesire ="";
 				cout<<pozitie<<" pozitii\n";
 				cout << adiacency_matrix[pozitia][pozitia].actor_id1<<" actor\n";
 				parteneri = new struct date [pozitie - 1];
@@ -315,11 +317,15 @@
                         l++;
                     }
                     if (parteneri[j].filme != 0){
-                    	std::cout<<parteneri[j].actor_id1 << " "<<parteneri[j].filme<<"  ";
+                    	iesire = iesire + parteneri[j].actor_id1 + " ";
                 	}
                 }
-            	std::cout << "\n";
+            	
 		    	delete[] parteneri;
+		    	if (iesire ==""){
+		    		return "none";
+		    	}
+		    	return iesire;
 		    }
 	};
 #endif  // GRAPH_H_

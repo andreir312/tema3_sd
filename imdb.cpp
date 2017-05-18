@@ -1,5 +1,6 @@
 /* Copyright 2017 Andrei Petre */
 
+
 # include <iterator>
 
 # include <string>
@@ -251,7 +252,7 @@ std::string IMDb::get_best_year_for_category(std::string category)
 
 std::string IMDb::get_2nd_degree_colleagues(std::string actor_id)
 {
-    return "";
+    return actors_links.BFS(actors[actor_id].number);
 }
 
 std::string IMDb::get_top_k_most_recent_movies(int k)
@@ -287,7 +288,7 @@ std::string IMDb::get_top_k_actor_pairs(int k)
 
 std::string IMDb::get_top_k_partners_for_actor(int k, std::string actor_id)
 {
-    return "";
+    return actors_links.top_k_partners(k, actors[actor_id].number, actor_id);
 }
 
 std::string IMDb::get_top_k_most_popular_movies(int k)
