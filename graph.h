@@ -60,7 +60,7 @@
 
      public:
             Graph() {
-            	pozitie = -1;
+            	pozitie = 0;
 				this->size = 100;
 				adiacency_matrix.resize(size);
 				for(int i = 0 ; i < size; ++i)
@@ -85,12 +85,12 @@
 				}
 				//cout << src<< "  "<< dst<<"  "<< a<< " "<< b<<"\n";				
 
-				if (src > pozitie){
+				if (src+1 > pozitie){
 					adiacency_matrix[src][dst].numar_ordine = src;
 					adiacency_matrix[src][src].actor_id1 = a;
 					pozitie++;
 				}
-				if (dst > pozitie){
+				if (dst+1 > pozitie){
 					adiacency_matrix[dst][src].numar_ordine = dst;
 					adiacency_matrix[dst][dst].actor_id1 = b;
 					pozitie++;
@@ -135,8 +135,8 @@
 		    	int w = -1;
 		    	string iesire ="";
 		    	// copii toate filmele intr-un vector de structa date
-		    	for (int i = 0; i < pozitie; ++i){
-		    		for (int j = i+1; j <= pozitie; ++j){
+		    	for (int i = 0; i < pozitie ; ++i){
+		    		for (int j = i+1; j < pozitie; ++j){
 		    			w++;
 		    			// daca exista film intre actori
 		    			if (adiacency_matrix[i][j].filme != 0){
@@ -275,19 +275,15 @@
 				//cout <<"\nNoduri de grad 2:  ";
 				for (i=0; i<j; ++i){
 
-				//	iesire = iesire+noduri[i]+" ";
+					iesire = iesire+noduri[i]+" ";
 				}
-				//return iesire;
-				return "sfarsit";
+				return iesire;
 			}
 			// se da din structura de unde e definit pozitia
 			string top_k_partners(int k, int pozitia, string actor_id){
-				cout<<"Top k parteneri: \n";
 				struct date *parteneri;
 				int poz = 0;
 				string iesire ="";
-				cout<<pozitie<<" pozitii\n";
-				cout << adiacency_matrix[pozitia][pozitia].actor_id1<<" actor\n";
 				parteneri = new struct date [pozitie - 1];
 				for (int i = 0; i< pozitie; ++i){
 					if (pozitia == i){
