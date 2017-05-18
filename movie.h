@@ -5,9 +5,11 @@
 
 # include <vector>
 
+# include <cmath>
+
 # include <sstream>
 
-# include <cmath>
+# include <iomanip>
 
 struct Movie
 {
@@ -86,13 +88,19 @@ struct Movie
 
     std::string get_rating()
     {
-        this->rating = round(this->rating * 100) / 100;
+        if (this->votes != 0)
+        {
+            double result = round(this->rating * 100) / 100;
 
-        std::ostringstream aux;
+            std::stringstream tmp;
 
-        aux << this->rating;
+            tmp << std::fixed << std::setprecision (2) << result;
 
-        return aux.str();
+            std::string aux = tmp.str();
+
+            return aux;
+        }
+        return "none";
     }
 
     std::vector<std::string> get_categories()
@@ -108,6 +116,15 @@ struct Movie
     int get_votes()
     {
         return this->votes;
+    }
+
+    double return_rating()
+    {
+        if (this->votes != 0)
+        {
+            return this->rating;
+        }
+        return 0;
     }
 };
 

@@ -39,9 +39,9 @@ struct Director
         }
     }
 
-    unsigned int get_no_actors()
+    int get_no_actors()
     {
-        return this->actors.size();
+        return (int)this->actors.size();
     }
 };
 

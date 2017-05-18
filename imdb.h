@@ -1,5 +1,7 @@
-#ifndef IMDB__H__
-#define IMDB__H__
+/* Copyright 2017 Andrei Petre */
+
+#ifndef SD_TEMA3_INCLUDE_IMDB_H_
+#define SD_TEMA3_INCLUDE_IMDB_H_
 
 # include <string>
 # include <vector>
@@ -33,13 +35,6 @@
 #define GET_TOP_K_MOST_POPULAR_MOVIES   "get_top_k_most_popular_movies"
 #define GET_AVG_RATING_IN_RANGE         "get_avg_rating_in_range"
 
-struct Compare
-{
-    bool operator() (const int& a, const int& b) const
-    {
-        return a > b;
-    }
-};
 
 class IMDb
 {
@@ -87,7 +82,9 @@ private:
 
     std::unordered_map<std::string, Category> categories;
 
-    std::multimap<int, std::string, Compare> recent_movies;
+    std::multimap<int, Movie> recent_movies;
+
+    int number;
 };
 
-#endif  // IMDB__H__
+#endif  // SD_TEMA3_INCLUDE_IMDB_H_

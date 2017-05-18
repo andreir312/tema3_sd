@@ -7,6 +7,10 @@
 
 # include <unordered_map>
 
+# include <cmath>
+
+# define EPS 0.0001
+
 struct Category
 {
     std::string name;
@@ -48,9 +52,42 @@ struct Category
         this->years[year].remove_rating(old_rating);
     }
 
-    std::string get_rating(std::string year)
+    std::string get_rating()
     {
-        return this->years[year].get_rating();
+        std::string year;
+
+        double rating = -1;
+
+        double aux;
+
+        std::unordered_map<std::string, Year>::iterator it;
+
+        for (it = years.begin(); it != years.end(); it++)
+        {
+            aux = it->second.get_rating();
+
+            if (rating < aux)
+            {
+                year = it->first;
+
+                rating = aux;
+            }
+            else
+            {
+                if (fabs (rating - aux) < EPS)
+                {
+                    if (year > it->first)
+                    {
+                        year = it->first;
+                    }
+                }
+            }
+        }
+        if (rating == -1)
+        {
+            return "none";
+        }
+        return year;
     }
 };
 

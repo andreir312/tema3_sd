@@ -3,19 +3,23 @@
 
 # include <string>
 
+# include <sstream>
+
+# include <iomanip>
+
 struct Year
 {
     std::string name;
 
     double rating;
 
-    double votes;
+    int votes;
 
     double sum;
 
     Year()
     {
-        this-> votes = 0;
+        this->votes = 0;
 
         this->sum = 0;
     }
@@ -35,7 +39,7 @@ struct Year
 
         this->sum += new_rating;
 
-        this->rating = this->sum / this->votes;
+        this->rating = this->sum / (double)this->votes;
     }
 
     void update_rating(double new_rating, double old_rating)
@@ -44,7 +48,7 @@ struct Year
 
         this->sum += new_rating;
 
-        this->rating = this->sum / this->votes;
+        this->rating = this->sum / (double)this->votes;
     }
 
     void remove_rating(double old_rating)
@@ -53,18 +57,16 @@ struct Year
 
         this->sum -= old_rating;
 
-        this->rating = this->sum / this->votes;
+        this->rating = this->sum / (double)this->votes;
     }
 
-    std::string get_rating()
+    double get_rating()
     {
-        this->rating = round(this->rating * 100) / 100;
-
-        std::ostringstream aux;
-
-        aux << this->rating;
-
-        return aux.str();
+        if (this->votes != 0)
+        {
+            return this->rating;
+        }
+        return 0;
     }
 };
 
