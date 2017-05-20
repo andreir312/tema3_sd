@@ -1,40 +1,44 @@
-#ifndef ACTOR__H__
-#define ACTOR__H__
+// Copyright 2017 Andrei Rares
+#ifndef _HOME_STUDENT_RESOURCES_INCLUDE_ACTOR_H_
+#define _HOME_STUDENT_RESOURCES_INCLUDE_ACTOR_H_
 
-# include <string>
-
-# include <cmath>
+#include<string>
+#include<cmath>
 
 struct Actor
 {
     std::string id;
-
     std::string name;
-
+    int number;
     bool is_begin;
-
     bool is_end;
-
     int begin;
-
     int end;
 
     Actor()
     {
         this->is_begin = false;
-
         this->is_end = false;
     }
 
-    Actor(std::string actor_id, std::string name)
+    Actor(std::string actor_id, std::string name, int number)
     {
         this->id = actor_id;
-
         this->name = name;
-
+        this->number = number;
         this->is_begin = false;
-
         this->is_end = false;
+    }
+
+    Actor(const Actor& aux)
+    {
+        this->id = aux.id;
+        this->name = aux.name;
+        this->number = aux.number;
+        this->is_begin = aux.is_begin;
+        this->is_end = aux.is_end;
+        this->begin = aux.begin;
+        this->end = aux.begin;
     }
 
     void sync_bounds(int timestamp)
@@ -42,6 +46,7 @@ struct Actor
         if (this->is_begin == false)
         {
             this->begin = timestamp;
+            this->is_begin = true;
         }
         else
         {
@@ -50,6 +55,7 @@ struct Actor
                 if (this->is_end == false)
                 {
                     this->end = this->begin;
+                    this->is_end = true;
                 }
                 this->begin = timestamp;
             }
@@ -58,6 +64,7 @@ struct Actor
                 if (this->is_end == false)
                 {
                     this->end = timestamp;
+                    this->is_end = true;
                 }
                 else
                 {
@@ -72,12 +79,19 @@ struct Actor
 
     int get_career()
     {
-        if (this->is_begin == false || this->is_end == false)
+        if (this->is_begin == false)
         {
-            return 0;
+            return -1;
         }
-        return std::abs(this->end - this->begin);
+        else
+        {
+            if (this->is_end == false)
+            {
+                return 0;
+            }
+        }
+        return (int)std::abs(this->end - this->begin);
     }
 };
 
-#endif  // ACTOR__H__
+#endif  // _HOME_STUDENT_RESOURCES_INCLUDE_ACTOR_H_

@@ -1,16 +1,14 @@
-#ifndef DIRECTOR__H__
-#define DIRECTOR__H__
+// Copyright 2017 Andrei Rares
+#ifndef _HOME_STUDENT_RESOURCES_INCLUDE_DIRECTOR_H_
+#define _HOME_STUDENT_RESOURCES_INCLUDE_DIRECTOR_H_
 
-# include <string>
-
-# include <vector>
-
-# include <unordered_map>
+#include<string>
+#include<vector>
+#include<unordered_map>
 
 struct Director
 {
     std::string name;
-
     std::unordered_map<std::string, char> actors;
 
     Director()
@@ -39,10 +37,10 @@ struct Director
         }
     }
 
-    unsigned int get_no_actors()
+    int get_no_actors()
     {
-        return this->actors.size();
+        return (int)this->actors.size();
     }
 };
 
-#endif  // DIRECTOR__H__
+#endif  // _HOME_STUDENT_RESOURCES_INCLUDE_DIRECTOR_H_

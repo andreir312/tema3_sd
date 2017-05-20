@@ -1,17 +1,20 @@
-#ifndef IMDB__H__
-#define IMDB__H__
+// Copyright 2017 Andrei Rares
+#ifndef _HOME_STUDENT_RESOURCES_INCLUDE_IMDB_H_
+#define _HOME_STUDENT_RESOURCES_INCLUDE_IMDB_H_
 
-# include <string>
-# include <vector>
-# include <unordered_map>
-# include <map>
+#include<string>
+#include<vector>
+#include<unordered_map>
+#include<map>
+#include<utility>
 
-# include "movie.h"
-# include "user.h"
-# include "actor.h"
-# include "director.h"
-# include "year.h"
-# include "category.h"
+#include"./actor.h"
+#include"./year.h"
+#include"./category.h"
+#include"./director.h"
+#include"./movie.h"
+#include"./user.h"
+#include"./graph.h"
 
 #define NONE                            "none"
 
@@ -21,7 +24,7 @@
 #define ADD_RATING                      "add_rating"
 #define UPDATE_RATING                   "update_rating"
 #define REMOVE_RATING                   "remove_rating"
-// queries
+
 #define GET_RATING                      "get_rating"
 #define GET_LONGEST_CAREER_ACTOR        "get_longest_career_actor"
 #define GET_MOST_INFLUENTIAL_DIRECTOR   "get_most_influential_director"
@@ -33,17 +36,10 @@
 #define GET_TOP_K_MOST_POPULAR_MOVIES   "get_top_k_most_popular_movies"
 #define GET_AVG_RATING_IN_RANGE         "get_avg_rating_in_range"
 
-struct Compare
-{
-    bool operator() (const int& a, const int& b) const
-    {
-        return a > b;
-    }
-};
 
 class IMDb
 {
-public:
+ public:
     IMDb();
     ~IMDb();
 
@@ -59,7 +55,6 @@ public:
     void update_rating(std::string user_id, std::string movie_id, int rating);
     void remove_rating(std::string user_id, std::string movie_id);
 
-    // queries
     std::string get_rating(std::string movie_id);
     std::string get_longest_career_actor();
     std::string get_most_influential_director();
@@ -71,23 +66,19 @@ public:
     std::string get_top_k_most_popular_movies(int k);
     std::string get_avg_rating_in_range(int start, int end);
 
-    // input reader helper.
     std::string read_input_line(const std::string& line);
 
-private:
-    // add any variables you need here.
-
+ private:
     std::unordered_map<std::string, Movie> movies;
-
     std::unordered_map<std::string, User> users;
-
     std::unordered_map<std::string, Actor> actors;
-
     std::unordered_map<std::string, Director> directors;
-
     std::unordered_map<std::string, Category> categories;
-
-    std::multimap<int, std::string, Compare> recent_movies;
+    std::map<int, Movie> recent_movies;
+    std::vector<std::pair<std::string, Movie>> popular_movies;
+    int ok;
+    Graph actors_links;
+    int number;
 };
 
-#endif  // IMDB__H__
+#endif  // _HOME_STUDENT_RESOURCES_INCLUDE_IMDB_H_

@@ -1,38 +1,29 @@
-#ifndef MOVIE__H__
-#define MOVIE__H__
+// Copyright 2017 Andrei Rares
+#ifndef _HOME_STUDENT_RESOURCES_INCLUDE_MOVIE_H_
+#define _HOME_STUDENT_RESOURCES_INCLUDE_MOVIE_H_
 
-# include <string>
-
-# include <vector>
-
-# include <sstream>
-
-# include <cmath>
+#include<string>
+#include<vector>
+#include<cmath>
+#include<sstream>
+#include<iomanip>
 
 struct Movie
 {
     std::string name;
-
     std::string id;
-
     int timestamp;
-
     std::vector<std::string> categories;
-
     std::string director_name;
-
     std::vector<std::string> actors_ids;
-
     double rating;
-
+    double old_rating;
     int votes;
-
     double sum;
 
     Movie()
     {
         this->votes = 0;
-
         this->sum = 0;
     }
 
@@ -41,58 +32,47 @@ struct Movie
           std::vector<std::string> actor_ids)
     {
         this->name = movie_name;
-
         this->id = movie_id;
-
         this->timestamp = timestamp;
-
         this->categories = categories;
-
         this->director_name = director_name;
-
         this->actors_ids = actor_ids;
-
         this->votes = 0;
-
         this->sum = 0;
     }
 
     void add_rating(double new_rating)
     {
         this->votes += 1;
-
         this->sum += new_rating;
-
         this->rating = this->sum / (double)this->votes;
     }
 
     void update_rating(double new_rating, double old_rating)
     {
         this->sum -= old_rating;
-
         this->sum += new_rating;
-
         this->rating = this->sum / (double)this->votes;
     }
 
     void remove_rating(double old_rating)
     {
         this->votes -= 1;
-
         this->sum -= old_rating;
-
         this->rating = this->sum / (double)this->votes;
     }
 
     std::string get_rating()
     {
-        this->rating = round(this->rating * 100) / 100;
-
-        std::ostringstream aux;
-
-        aux << this->rating;
-
-        return aux.str();
+        if (this->votes != 0)
+        {
+            double result = round(this->rating * 100) / 100;
+            std::stringstream tmp;
+            tmp << std::fixed << std::setprecision(2) << result;
+            std::string aux = tmp.str();
+            return aux;
+        }
+        return "none";
     }
 
     std::vector<std::string> get_categories()
@@ -109,6 +89,16 @@ struct Movie
     {
         return this->votes;
     }
+
+
+    double return_rating()
+    {
+        if (this->votes != 0)
+        {
+            return this->rating;
+        }
+        return -1;
+    }
 };
 
-#endif  // MOVIE__H__
+#endif  // _HOME_STUDENT_RESOURCES_INCLUDE_MOVIE_H_

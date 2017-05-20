@@ -1,16 +1,13 @@
-#ifndef CATEGORY__H__
-#define CATEGORY__H__
+// Copyright 2017 Andrei Rares
+#ifndef _HOME_STUDENT_RESOURCES_INCLUDE_CATEGORY_H_
+#define _HOME_STUDENT_RESOURCES_INCLUDE_CATEGORY_H_
 
-# include <string>
-
-# include <vector>
-
-# include <unordered_map>
+#include<string>
+#include<unordered_map>
 
 struct Category
 {
     std::string name;
-
     std::unordered_map<std::string, Year> years;
 
     Category()
@@ -21,7 +18,6 @@ struct Category
     Category(std::string name, std::string year)
     {
         this->name = name;
-
         this->years.emplace(year, Year(year));
     }
 
@@ -43,16 +39,45 @@ struct Category
         this->years[year].update_rating(new_rating, old_rating);
     }
 
-    void remove_rating(std::string year, double old_rating)
+    void remove_rating(std::string year, double new_rating, double old_rating)
     {
-        this->years[year].remove_rating(old_rating);
+        this->years[year].remove_rating(new_rating, old_rating);
     }
 
-    std::string get_rating(std::string year)
+    std::string get_rating()
     {
-        return this->years[year].get_rating();
+        std::string year;
+        double rating = -1;
+        double aux;
+        std::unordered_map<std::string, Year>::iterator it;
+
+        for (it = years.begin(); it != years.end(); it++)
+        {
+            aux = it->second.get_rating();
+
+            if (rating < aux)
+            {
+                year = it->first;
+                rating = aux;
+            }
+            else
+            {
+                if (rating == aux)
+                {
+                    if (year > it->first)
+                    {
+                        year = it->first;
+                    }
+                }
+            }
+        }
+        if (rating == -1)
+        {
+            return "none";
+        }
+        return year;
     }
 };
 
-#endif  // CATEGORY__H__
+#endif  // _HOME_STUDENT_RESOURCES_INCLUDE_CATEGORY_H_
 
