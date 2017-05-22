@@ -1,4 +1,4 @@
-// Copyright 2017 Andrei Rares
+// Copyright 2017 Andrei Rares, Popa Adrian
 #ifndef _HOME_STUDENT_RESOURCES_INCLUDE_GRAPH_H_
 #define _HOME_STUDENT_RESOURCES_INCLUDE_GRAPH_H_
 
@@ -235,8 +235,8 @@ class Graph
 
     std::string second_degree_colleagues(int nod)
     {
-        std::string culoare[position];
-        int distanta[position];
+        std::string *culoare = new std::string[position];
+        int *distanta = new int[position];
         int i;
 
         for (i = 0; i < position; i++)
@@ -251,7 +251,7 @@ class Graph
         int v;
         int ok = 0;
         int numar = 0;
-        std::string noduri[position];
+        std::string *noduri = new std::string[position];
         int j = 0;
 
         while (!Q.empty())
@@ -290,7 +290,10 @@ class Graph
         }
         if (j == 0)
         {
-            return "none";
+            delete [] culoare;
+			delete [] distanta;
+			delete [] noduri;
+			return "none";
         }
         std::sort(noduri, noduri + j);
         std::string result = "";
@@ -300,6 +303,9 @@ class Graph
             result = result + noduri[i] + " ";
         }
         result.resize(result.size() - 1);
+		delete [] culoare;
+		delete [] distanta;
+		delete [] noduri;
         return result;
     }
 

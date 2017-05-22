@@ -1,4 +1,4 @@
-// Copyright 2017 Andrei Rares
+// Copyright 2017 Andrei Petre, Andrei Rares, Popa Adrian
 #ifndef _HOME_STUDENT_RESOURCES_INCLUDE_IMDB_H_
 #define _HOME_STUDENT_RESOURCES_INCLUDE_IMDB_H_
 
@@ -69,15 +69,25 @@ class IMDb
     std::string read_input_line(const std::string& line);
 
  private:
+    // hashtable cu filme
     std::unordered_map<std::string, Movie> movies;
+    // hashtable cu useri
     std::unordered_map<std::string, User> users;
+    // hashtable cu actori
     std::unordered_map<std::string, Actor> actors;
+    // hastable cu directori
     std::unordered_map<std::string, Director> directors;
+    // hastable cu categorii
     std::unordered_map<std::string, Category> categories;
+    // arbore cu filme sortate dupa timestamp
     std::map<int, Movie> recent_movies;
+    // vector cu filme
     std::vector<std::pair<std::string, Movie>> popular_movies;
+    // variabila ce monitorizeaza daca vectorul cu filme trebuie sortat
     int ok;
+    // graf cu actori
     Graph actors_links;
+    // variabila ce retine numarul de ordine in matricea de adiacenta
     int number;
 };
 

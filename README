@@ -1,1 +1,93 @@
-# sd-tema3
+	Copyright 2017 Andrei Rares, Popa Adrian
+	
+	Headers
+	
+		actor.h
+		
+			Contine structura Actor ce este necesara pentru a calcula ce actor
+			are cea mai lunga cariera. Sunt retinute limitele, adica care este
+			cel mai vechi film in care a jucat si cel mai nou. Cand actorul
+			joaca intr-un film nou, se sincronizeaza aceste limite.
+			
+		category.h
+		
+			Contine structura Category ce retine un hastable cu structuri Year.
+			Este necesara pentru a calcula cel mai bun an pentru o categorie. Se
+			sincronizeaza anii pentru categorie cand apare un film nou.
+			
+		director.h
+		
+			Contine structura Director ce este necesara pentru a calcula cel mai
+			influent director. Retine un hashtable cu actorii cu care a
+			colaborat. Se sincronizeaza actorii cand apare un film nou regizat
+			de director.
+			
+		graph.h
+		
+			// 
+		
+		imdb.h
+		
+			Am adaugat la variabile 5 hashtable-uri: unul cu filme, unul cu
+			useri, unul cu actori, unul cu directori si unul cu categorii; un
+			arbore cu filme, un vector cu filme, un graf cu actori si 2
+			variabile: una monitorizeaza necesitatatea ca vectorul cu filme sa
+			fie sortat si cealalta numarul de ordine al unui actor in graf.	
+		
+		movie.h
+		
+			Contine structura Movie ce retine informatii despre un film si
+			rating-ul acestuia. Se sincronizeaza cand se fac operatii de
+			adaugare, actualizare sau stergere rating pentru film.
+			
+		user.h
+		
+			Contine structura User ce retine un hashtable cu filmele pe care
+			le-a votat user-ul. Se sincronizeaza cand se fac operatii de
+			adaugare, actualizare sau stergere rating pentru film.
+			
+		year.h
+		
+			// 
+		
+	Sources
+	
+		imdb.cpp
+		
+			Functia get_rating este indeplinita accesand hastable-ul cu filme
+			ce este sincronizat corespunzator prin functiile de add_rating,
+			update_rating si remove_rating.
+			
+			Functia get_longest_career_actor este indeplinita prin iterarea in
+			hastable-ul cu actori ce este sincronizat corespunzator prin
+			functiile de add_actor si add_movie.
+			
+			Functia get_most_influential_director este indeplinita prin iterarea
+			in hastable-ul cu directori ce este sincronizat corespunzator prin
+			functia de add_movie.
+			
+			// 
+			
+			// 
+			
+			Functia get_top_k_most_recent_movies este indeplinita prin accesarea
+			primelor k elemente din arborele de filme sortat dupa timestamp.
+			
+			// 
+			
+			// 
+			
+			Functia get_top_k_most_popular_movies este indeplinita prin sortarea
+			vectorului cu filme daca este cazul, iar apoi accesarea primelor k
+			elemente din acesta. Vectorul cu filme este construit be baza
+			informatiilor din hashtable-ul cu filme.
+			
+			Functia get_avg_rating_in_range este indeplinita prin iterarea in
+			arborele de filme sortat dupa timestamp si calcularea mediei
+			filmelor in limitele cerute.
+		
+	Detalii suplimentare (pas cu pas, usor de urmarit) se gasesc in comentarii.
+	
+	Concluzii legate de nivelul de contributie a celor doi colaboratori se pot
+	trage accesand repository-ul acestui proiect aflat la
+	https://github.com/andreir312/tema3_sd.
