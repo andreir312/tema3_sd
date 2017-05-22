@@ -24,7 +24,9 @@
 			
 		graph.h
 		
-			// 
+			Contine un graf alocat sub forma de matrice. Este folosit pentru
+			determinarea colegilor de grad 2, a partenerilor si a perechilor
+			de actori. Cand se introduce un film nou acesta se actualizeaza.
 		
 		imdb.h
 		
@@ -48,7 +50,7 @@
 			
 		year.h
 		
-			// 
+			Contine rating-ul filmelor dintr-un an pentru o categorie de film
 		
 	Sources
 	
@@ -66,16 +68,21 @@
 			in hastable-ul cu directori ce este sincronizat corespunzator prin
 			functia de add_movie.
 			
-			// 
-			
-			// 
+			Functia get_best_year_for_category este indeplinita prin iterarea
+			in hastable-ul de categorii si gasirea anului cu cel mai mare rating
+			 
+			Functia get_2nd_degree_colleagues este indeplinita prin graful de
+			actori care este sincronizat la fiecare adaugare de film sau de
+			actor si gasirea actorilor intermediati de un partener de film
 			
 			Functia get_top_k_most_recent_movies este indeplinita prin accesarea
 			primelor k elemente din arborele de filme sortat dupa timestamp.
 			
-			// 
+			Functia get_top_k_actor_pairs este indeplinita prin graful de actori
+			care memoreaza numarul de filme dintre actori
 			
-			// 
+			Functia get_top_k_partners_for_actor este indeplinita prin graful de
+			actori care memoreaza numarul de filme dintre actori
 			
 			Functia get_top_k_most_popular_movies este indeplinita prin sortarea
 			vectorului cu filme daca este cazul, iar apoi accesarea primelor k

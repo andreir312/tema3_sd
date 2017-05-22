@@ -7,6 +7,7 @@
 #include<vector>
 #include<algorithm>
 
+// clasa folosita pentru sortarea rezultatului functiei top_k_partners
 struct partner
 {
     int movies;
@@ -29,7 +30,7 @@ struct partner
         movies = aux.movies;
         id = aux.id;
     }
-
+    // operatia de sortare
     bool operator <(const partner &aux) const
     {
         if (movies != aux.movies)
@@ -39,7 +40,7 @@ struct partner
         return (id < aux.id);
     }
 };
-
+// clasa folosita la memorarea actorilor si a numarului de filme dintre acestia
 struct date
 {
     int movies;
@@ -66,7 +67,7 @@ struct date
         actor_id1 = d.actor_id1;
         actor_id2 = d.actor_id2;
     }
-
+    // actorii se introduc alfabetic in clasa
     void alfabetic(std::string actor_id1, std::string actor_id2)
     {
         if (actor_id1 < actor_id2)
@@ -80,7 +81,7 @@ struct date
             this->actor_id2 = actor_id1;
         }
     }
-
+    // determina partenerul de film al unui actor
     std::string partner(std::string actor_id)
     {
         if (actor_id == actor_id1)
@@ -89,17 +90,20 @@ struct date
         }
         return actor_id1;
     }
-
+    // functie folosita la sortare
     bool operator <(const date &aux) const
     {
+        // dupa numarul de filme
         if (movies != aux.movies)
         {
             return (movies > aux.movies);
         }
+        //dupa primul id 
         if (actor_id1 != aux.actor_id1)
         {
             return (actor_id1 < aux.actor_id1);
         }
+        // dupa al doilea id
         return (actor_id2 < aux.actor_id2);
     }
 };
@@ -107,8 +111,8 @@ struct date
 class Graph
 {
  private:
-    int position;
-    int size;
+    int position;  // numarul de actori din graf
+    int size;  // dimensiunea totala a grafului
     std::vector<std::vector<struct date>> adiacency_matrix;
 
  public:
@@ -123,7 +127,7 @@ class Graph
             adiacency_matrix[i].resize(size);
         }
     }
-
+    // redimensionare graf
     void resize_matrix()
     {
         size *= 2;
@@ -134,9 +138,10 @@ class Graph
             adiacency_matrix[i].resize(size);
         }
     }
-
+    // se intoduce un actor in graf si se seteaza filmele pe 0
     void add_actor(int src, std::string nume)
     {
+        // daca nu mai e loc in graf
         if (src + 1 > size)
         {
             resize_matrix();
@@ -150,14 +155,17 @@ class Graph
             adiacency_matrix[src][i].movies = 0;
         }
     }
-
+    // se introduce un film intre doi actori
     void add_movie(int src, int dst, std::string actor_id1,
                    std::string actor_id2)
     {
+        // daca nu mai e loc in graf
         if (src >= size || dst >= size)
         {
             resize_matrix();
         }
+        // daca nu exista actorul se introduce in graf
+        // iar pe diagonala se retine numele acestuia
         if (src + 1 > position)
         {
             adiacency_matrix[src][src].actor_id1 = actor_id1;
@@ -168,6 +176,7 @@ class Graph
             adiacency_matrix[dst][dst].actor_id1 = actor_id2;
             position++;
         }
+        // se majoreaza contorul de filme si se pun alfabetic in graf
         adiacency_matrix[src][dst].movies += 1;
         adiacency_matrix[dst][src].movies += 1;
         adiacency_matrix[src][dst].alfabetic(actor_id1, actor_id2);
@@ -176,11 +185,13 @@ class Graph
 
     std::string top_k_actor_pairs(int k)
     {
+        // daca nu exista nici un actor in graf
         if (position == 0)
         {
             return "none";
         }
         std::string result = "";
+        // se declara un vector de parteneri
         std::vector<struct date> partners;
 
         for (int i = 0; i < position ; ++i)
@@ -193,10 +204,12 @@ class Graph
                 }
             }
         }
+        // daca nu exista nici un film intre doi actori
         if (partners.empty())
         {
             return "none";
         }
+        // se sorteaza vectorul
         std::sort(partners.begin(), partners.end());
         int top = 0;
         std::vector<struct date>::iterator it;
@@ -204,23 +217,21 @@ class Graph
         for (it = partners.begin(); it != partners.end(); it++)
         {
             top++;
-
+            // daca s-a depasit numarul cerut de perechi
             if (top > k)
             {
                 break;
             }
+            // se concateneaza numele actorilor la rezultat
             std::string movies = std::to_string(it->movies);
             result = result + "(" + it->actor_id1 + " " + it->actor_id2 + " "
             + movies + ") ";
         }
-        if (result == "")
-        {
-            return "none";
-        }
+        // se sterge ultimul spatiu
         result.resize(result.size() - 1);
         return result;
     }
-
+    // daca cei doi actori au jucat impreuna intr-un film
     bool has_movie(int src, int dst)
     {
         if (adiacency_matrix[src][dst].movies == 0)
@@ -232,7 +243,9 @@ class Graph
             return true;
         }
     }
-
+    // colegii de grad 2 ai unui actor;
+    // este un BFS care se opeste dupa ce a gasit 
+    // toti actorii la distanta 2 de sursa
     std::string second_degree_colleagues(int nod)
     {
         std::string *culoare = new std::string[position];
@@ -276,6 +289,7 @@ class Graph
 
                         if (distanta[i] == 2)
                         {
+                            // se extrage numele actorului de grad 2
                             noduri[j++] = adiacency_matrix[i][i].actor_id1;
                         }
                         Q.push(i);
@@ -311,14 +325,16 @@ class Graph
 
     std::string top_k_partners(int k, int number, std::string actor_id)
     {
+        // daca exista doar actorul sursa in graf
         if (position == 1)
         {
             return "none";
         }
         struct partner aux;
         std::string result = "";
+        // de declara un vector de parteneri
         std::vector<struct partner> partners;
-
+        // se cauta toti partenerii
         for (int i = 0; i < position; ++i)
         {
             if (number == i)
@@ -327,11 +343,13 @@ class Graph
             }
             if (adiacency_matrix[number][i].movies != 0)
             {
+                // se introduc in vector
                 aux.id = adiacency_matrix[number][i].partner(actor_id);
                 aux.movies = adiacency_matrix[number][i].movies;
                 partners.push_back(aux);
             }
         }
+        // daca nu are nici un partener
         if (partners.empty())
         {
             return "none";
@@ -343,15 +361,12 @@ class Graph
         for (it = partners.begin(); it != partners.end(); it++)
         {
             top++;
+            // daca s-a depasit numarul cerut de parteneri
             if (top > k)
             {
                 break;
             }
             result = result + it->id + " ";
-        }
-        if (result == "")
-        {
-            return "none";
         }
         result.resize(result.size() - 1);
         return result;

@@ -96,7 +96,7 @@ void IMDb::add_movie(std::string movie_name,
     {
         for (unsigned int j = i + 1; j < actor_ids.size(); j++)
         {
-            //
+            // introducere actorii in graf
             actors_links.add_movie(actors[actor_ids[i]].number,
                                    actors[actor_ids[j]].number,
                                    actor_ids[i], actor_ids[j]);
@@ -125,7 +125,7 @@ void IMDb::add_rating(std::string user_id, std::string movie_id, int rating)
 {
     // se adauga rating-ul asociat filmului pentru user
     this->users[user_id].add_rating(movie_id, (double)rating);
-    //
+    // se extrage raitingul filmului inaite de adaugare (-1)
     double old = movies[movie_id].return_rating();
     // se adauga rating-ul in hashtable
     this->movies[movie_id].add_rating((double)rating);
@@ -141,7 +141,7 @@ void IMDb::add_rating(std::string user_id, std::string movie_id, int rating)
 
     for (unsigned int i = 0; i < categories.size(); i++)
     {
-        //
+        // se actualizeaza rating-ul pentru categegoriile din care face parte
         this->categories[categories[i]].
         update_rating(year, movies[movie_id].return_rating(), old);
     }
@@ -154,7 +154,7 @@ void IMDb::update_rating(std::string user_id, std::string movie_id, int rating)
     // se actualizeaza rating-ul asociat filmului pentru user
     double old_rating = this->users[user_id].
                         update_rating(movie_id, (double)rating);
-    //
+    // se extrage raitingul filmului inaite de a i se face update
     double old = movies[movie_id].return_rating();
     // se actualizeaza rating-ul in hastable
     this->movies[movie_id].update_rating((double)rating, old_rating);
@@ -171,7 +171,7 @@ void IMDb::update_rating(std::string user_id, std::string movie_id, int rating)
 
     for (unsigned int i = 0; i < categories.size(); i++)
     {
-        //
+        // se actualizeaza rating-ul pentru categegoriile din care face parte
         this->categories[categories[i]].
         update_rating(year, movies[movie_id].return_rating(), old);
     }
@@ -181,7 +181,7 @@ void IMDb::remove_rating(std::string user_id, std::string movie_id)
 {
     // se sterge rating-ul asociat filmului pentru user
     double old_rating = this->users[user_id].remove_rating(movie_id);
-    //
+    // se extrage raitingul filmului inaite de a fi sters
     double old = movies[movie_id].return_rating();
     // se sterge rating-ul in hastable
     this->movies[movie_id].remove_rating(old_rating);
@@ -197,7 +197,7 @@ void IMDb::remove_rating(std::string user_id, std::string movie_id)
 
     for (unsigned int i = 0; i < categories.size(); i++)
     {
-        //
+        // se actualizeaza rating-ul pentru categegoriile din care face parte
         this->categories[categories[i]].
         update_rating(year, movies[movie_id].return_rating(), old);
     }
@@ -297,7 +297,7 @@ std::string IMDb::get_2nd_degree_colleagues(std::string actor_id)
     {
         return "none";
     }
-    //
+    // se cauta vecinii de grad 2 din graf
     return actors_links.second_degree_colleagues(actors[actor_id].number);
 }
 
@@ -334,13 +334,13 @@ std::string IMDb::get_top_k_most_recent_movies(int k)
 
 std::string IMDb::get_top_k_actor_pairs(int k)
 {
-    //
+    // se cauta topul perechilor de actori
     return actors_links.top_k_actor_pairs(k);
 }
 
 std::string IMDb::get_top_k_partners_for_actor(int k, std::string actor_id)
 {
-    //
+    // se cauta partenerii cu care a colaborat cel mai mult
     return actors_links.top_k_partners(k, actors[actor_id].number, actor_id);
 }
 

@@ -40,24 +40,24 @@ struct Year
     // se actualizeaza un rating
     void update_rating(double new_rating, double old_rating)
     {
-        //
+        // daca rating-ul este nou se face add
         if (old_rating == -1)
         {
             this->votes += 1;
             this->sum += new_rating;
             this->rating = this->sum / (double)this->votes;
         }
-        //
+        // daca exista deja un rating pentru filmul respectiv
         else
         {
-            //
+            // daca noul rating este 0, se scoate filmul din calcul
             if (new_rating == -1)
             {
                 this->votes -= 1;
                 this->sum -= old_rating;
                 this->rating = this->sum / (double)this->votes;
             }
-            //
+            // se inlocuieste rating-ul vechi cu cel nou
             else
             {
                 this->sum -= old_rating;
@@ -70,14 +70,14 @@ struct Year
     // se sterge un rating
     void remove_rating(double new_rating, double old_rating)
     {
-        //
+        // daca noul rating este 0, se scoate filmul din calcul
         if (new_rating == -1)
         {
             this->votes -= 1;
             this->sum -= old_rating;
             this->rating = this->sum / (double)this->votes;
         }
-        //
+        // se inlocuieste rating-ul vechi cu cel nou
         else
         {
             this->sum -= old_rating;
